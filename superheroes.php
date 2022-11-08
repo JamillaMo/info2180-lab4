@@ -62,11 +62,38 @@ $superheroes = [
       "biography" => "Notably powerful, Wanda Maximoff has fought both against and with the Avengers, attempting to hone her abilities and do what she believes is right to help the world.",
   ], 
 ];
-echo "Text";
-?>
 
-<ul>
-<?php foreach ($superheroes as $superhero): ?>
-  <li><?= $superhero['alias']; ?></li>
-<?php endforeach; ?>
-</ul>
+if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+    $name = filter_input(INPUT_GET, 'name', FILTER_SANITIZE_STRING);
+    $found = false;
+
+    if(empty($name)) {
+        echo "<h1>Result</h1>";
+        foreach ($superheroes as $superhero) {
+            echo "<ul>";
+            echo "<li>".$superhero['alias']."</li>";  
+            echo "</ul>";
+        }
+    }
+
+    else {
+        foreach ($superheroes as $superhero) {
+            if($superhero['name'] == $name || $superhero['alias'] == $name) {
+                $found = true;
+                echo "<h2>Result</h2>";
+                echo "<h3>".$superhero['alias']."</h3>";
+                echo "<h4>".$superhero['name']."</h4>";
+                echo "<p>".$superhero['biography']."</p>";
+                break;
+            }
+        }
+
+        if($found == false){
+            echo "<h1>Result</h1>";
+            echo "<hr>";
+            echo "<p>SUPERHERO NOT FOUND</p>";
+        }
+    }
+}
+
+?>

@@ -1,10 +1,14 @@
 window.addEventListener("load", function (e) {
     var btn = document.querySelector("button");
+    const result = document.querySelector("#result");
+    const input = document.querySelector("input");
 
     btn.addEventListener('click', function (e) {
         e.preventDefault()
         console.log('Button clicked');
-        let url = "superheroes.php";
+        
+        let name = input.value.trim()
+        let url = `superheroes.php?name=${name}`;
 
         fetch(url)
             .then(response => {
@@ -12,7 +16,9 @@ window.addEventListener("load", function (e) {
                 return response.text();
             })
 
-            .then(data => {alert(data)})
+            .then(data => {
+                result.innerHTML = data;
+            })
 
 
         // const httpRequest = new XMLHttpRequest();
